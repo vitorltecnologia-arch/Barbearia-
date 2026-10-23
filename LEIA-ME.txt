@@ -1,0 +1,22 @@
+BARBER PRO — ATUALIZAÇÃO DE PAINEL, FOTO E PRÓXIMOS CLIENTES
+
+Esta atualização mantém a configuração Supabase do projeto existente e adiciona uma lista de próximos atendimentos no painel. A agenda continua aceitando data/hora em formato 24 horas por meio do campo datetime-local do navegador.
+
+INSTALAÇÃO SEGURA
+1. Pare o servidor com Ctrl+C.
+2. Faça uma cópia de segurança da pasta atual.
+3. Extraia este ZIP.
+4. Copie a pasta app do projeto extraído para a pasta raiz do seu projeto atual, substituindo os arquivos correspondentes.
+5. NÃO substitua .env.local, lib/supabase ou supabase/migrations. Não execute a migration de novo.
+6. Execute pnpm run dev e abra http://localhost:3000.
+
+MUDANÇAS
+- Banner fotográfico no início com imagem de referência de barbearia/corte masculino. A imagem vem de URL externa e exige internet.
+- Painel lista os agendamentos pendentes/confirmados das próximas 24 horas, com nome, horário e telefone quando disponível.
+- Os links de navegação continuam levando a páginas próprias e a barra lateral permanece em cada módulo.
+
+LIMITES IMPORTANTES
+- O lembrete é visual dentro do painel; não envia WhatsApp, SMS, e-mail nem notificações em segundo plano.
+- O horário 24h depende da localidade/configuração do navegador; o banco armazena timestamps e converte por fuso horário.
+- Esta não é uma versão SaaS completa pronta para comercialização. Assinaturas, portal público de reservas, horários de funcionamento, notificações externas, relatórios completos e revisão de segurança/QA ainda precisam ser implementados e testados.
+- Não compartilhe .env.local nem chaves secretas.

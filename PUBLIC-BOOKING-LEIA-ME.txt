@@ -1,0 +1,35 @@
+BARBER PRO — AGENDAMENTO PÚBLICO
+
+O QUE FOI ADICIONADO
+- Página pública responsiva: /agendar/SLUG-DA-BARBEARIA
+- Cliente escolhe barbeiro, serviço, data, horário, nome e telefone.
+- Horários são apresentados em intervalos de 30 minutos durante as 24 horas.
+- Horários ocupados são consultados no Supabase.
+- A função de gravação utiliza a restrição de sobreposição que já existe na tabela appointments para impedir reservas simultâneas do mesmo barbeiro.
+- No painel, aparece um link para testar e copiar o link público.
+
+IMPORTANTE: NOVA MIGRAÇÃO, NÃO REFAZER A ANTIGA
+O arquivo supabase/migrations/0002_public_booking.sql é uma NOVA migração. Ela não substitui nem exige executar novamente 0001_core.sql.
+
+COMO ATUALIZAR SEM APAGAR CONFIGURAÇÕES
+1. Faça uma cópia de segurança da pasta atual do projeto.
+2. Extraia este ZIP em uma pasta temporária.
+3. Copie as pastas/arquivos novos e alterados para a pasta do projeto existente, mesclando:
+   - app/agendar/
+   - app/components/booking-link.tsx
+   - app/dashboard/page.tsx
+   - app/globals.css
+   - supabase/migrations/0002_public_booking.sql
+4. NÃO substitua .env.local. NÃO substitua lib/supabase/client.ts ou lib/supabase/server.ts. NÃO execute novamente 0001_core.sql.
+5. Abra o Supabase Dashboard > SQL Editor e execute o conteúdo de supabase/migrations/0002_public_booking.sql uma única vez.
+6. Reinicie o Next.js (Ctrl+C e pnpm run dev).
+7. Entre no painel Barber Pro. O cartão “Agendamento pelo celular” mostra o link público; use “Testar link” antes de compartilhar.
+
+REQUISITOS/OBSERVAÇÕES
+- A barbearia precisa estar criada e ter pelo menos um barbeiro ativo e um serviço ativo.
+- O link é /agendar/SLUG, usando o identificador que já existe na tabela barbershops.
+- Horários são interpretados no fuso local do navegador do cliente e armazenados como timestamp com fuso. Configure o fuso do estabelecimento de acordo com sua operação.
+- A agenda permite horários de qualquer hora, mas os slots são gerados a cada 30 minutos; um serviço pode durar mais de 30 minutos e o sistema remove slots que se sobrepõem a compromissos existentes.
+- A exclusão no banco impede sobreposição para o mesmo barbeiro, inclusive quando dois clientes tentam reservar ao mesmo tempo.
+- O fluxo cria o agendamento com status confirmado. Não envia confirmação automática por WhatsApp/SMS/e-mail.
+- Antes de comercializar em produção, valide as regras de fuso, políticas de cancelamento, limite de requisições e proteção contra abuso.

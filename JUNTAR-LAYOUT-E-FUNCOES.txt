@@ -1,0 +1,19 @@
+BARBER PRO — LAYOUT PROFISSIONAL + FUNÇÕES BÁSICAS
+
+Este pacote junta o projeto Next.js/Supabase às telas funcionais e aproxima a interface do protótipo profissional preto/amarelo. Inclui navegação responsiva, banner visual, campos escuros e atalhos para Agenda, Clientes, Serviços, Equipe, Financeiro, Agendamento online e Configurações.
+
+IMPORTANTE
+- Faça backup da pasta atual antes de substituir arquivos.
+- Preserve seu .env.local; ele não está incluído neste pacote.
+- Não execute a migration novamente: a base existente deve ser preservada.
+- As páginas Agenda, Clientes e Serviços fazem operações básicas no Supabase.
+- Equipe, Financeiro, Reservas públicas e Configurações têm páginas de preparação, não módulos completos; elas informam o que ainda falta e não inventam dados.
+- O banner usa imagem remota do Unsplash, então a foto depende de conexão com a internet.
+- O pacote não foi executado nem validado por build neste ambiente. Teste localmente com pnpm run dev; reporte qualquer erro do terminal. Não compartilhe .env.local nem chaves privadas.
+
+INICIAR
+1. Descompacte em uma pasta nova.
+2. Copie o conteúdo da pasta barberpro-saas-core para sua pasta atual, com backup prévio.
+3. Não copie .env.local de nenhum pacote: mantenha o seu.
+4. No terminal da pasta do projeto, execute: pnpm run dev
+5. Acesse http://localhost:3000/dashboard
