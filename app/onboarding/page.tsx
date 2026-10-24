@@ -1,0 +1,10 @@
+'use client';
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+export default function Onboarding() {
+ const [name,setName]=useState("");const [slug,setSlug]=useState("");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
+ function slugify(v:string){return v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");}
+ async function submit(e:FormEvent){e.preventDefault();setBusy(true);setMessage("");const supabase=createClient();const {data:{user}}=await supabase.auth.getUser();if(!user){window.location.href="/login";return;}const {data,error}=await supabase.rpc("create_barbershop",{p_name:name,p_slug:slugify(slug||name)});setBusy(false);if(error){setMessage(error.message);return;}window.location.href="/dashboard";}
+ return <div className="page"><aside className="side"><Link href="/" className="brand"><div className="mark">✂</div><div><b>BARBER PRO</b><small>GESTÃO INTELIGENTE</small></div></Link></aside><main><header className="top"><span className="muted">CONFIGURAÇÃO INICIAL</span><Link href="/login" className="muted">Sair</Link></header><div className="content"><div className="form"><div className="eyebrow">PASSO 1 DE 1</div><h1>Cadastre sua barbearia</h1><p className="muted">Este espaço ficará vinculado à sua conta.</p><form className="panel" onSubmit={submit}><div className="field"><label>NOME COMERCIAL</label><input required value={name} onChange={e=>{setName(e.target.value);if(!slug)setSlug(slugify(e.target.value));}} placeholder="Barbearia Central"/></div><div className="field"><label>IDENTIFICADOR DO ESPAÇO</label><input required value={slug} onChange={e=>setSlug(slugify(e.target.value))} placeholder="barbearia-central"/><small className="muted">Deve ser único. Pode ser usado no futuro no link público.</small></div>{message&&<p className="error">{message}</p>}<button className="btn" style={{width:"100%"}} disabled={busy}>{busy?"Criando espaço...":"Criar barbearia →"}</button></form></div></div></main></div>;
+}

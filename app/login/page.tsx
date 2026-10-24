@@ -1,0 +1,9 @@
+'use client';
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+export default function Login() {
+ const [email,setEmail]=useState(""); const [password,setPassword]=useState(""); const [message,setMessage]=useState(""); const [busy,setBusy]=useState(false);
+ async function submit(e:FormEvent){e.preventDefault();setBusy(true);setMessage("");const supabase=createClient();const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error){setMessage(error.message);return;}window.location.href="/dashboard";}
+ return <div className="page"><aside className="side"><Link href="/" className="brand"><div className="mark">✂</div><div><b>BARBER PRO</b><small>GESTÃO INTELIGENTE</small></div></Link></aside><main><header className="top"><Link href="/" className="muted">← Voltar ao início</Link><span className="muted">Acesso seguro</span></header><div className="content"><div className="form"><div className="eyebrow">BEM-VINDO DE VOLTA</div><h1>Entrar na sua conta</h1><p className="muted">Acesse o painel da sua barbearia.</p><form onSubmit={submit} className="panel"><div className="field"><label>E-MAIL</label><input type="email" required autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="voce@barbearia.com"/></div><div className="field"><label>SENHA</label><input type="password" required autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Sua senha"/></div>{message&&<p className="error">{message}</p>}<button className="btn" disabled={busy} style={{width:"100%"}}>{busy?"Entrando...":"Entrar"}</button><p className="muted">Ainda não tem conta? <Link href="/cadastro" style={{color:"var(--yellow)"}}>Criar conta</Link></p></form></div></div></main></div>;
+}
